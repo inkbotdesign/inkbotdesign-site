@@ -3,6 +3,8 @@ import sanity from '@sanity/astro';
 
 import react from '@astrojs/react';
 
+import netlify from '@astrojs/netlify';
+
 export default defineConfig({
   integrations: [sanity({
     projectId: 'furwbwrk',
@@ -10,5 +12,7 @@ export default defineConfig({
     apiVersion: '2026-03-25',
     studioBasePath: '/admin'
   }), react()],
-  output: 'static'
+
+  output: 'static',
+  adapter: netlify()
 });
