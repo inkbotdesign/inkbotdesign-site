@@ -1,11 +1,54 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { sanityClient } from "sanity:client";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Fetch the single homepage document we just created
+const query = `*[_type == "homePage"][0]`;
+const homeData = await sanityClient.fetch(query);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Inkbot Design | Branding & Web Design Agency</title>
+  </head>
+  
+  {/* We add global typography and background colors to the body */}
+  <body class="bg-slate-50 text-slate-900 font-sans antialiased">
+    
+    {/* This main tag uses Flexbox to perfectly center everything on the screen */}
+    <main class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+      
+      {/* We limit the width so the text doesn't stretch too far on desktop */}
+      <section class="max-w-4xl space-y-8">
+        
+        {homeData ? (
+          <>
+            {/* Massive, bold headline that gets even bigger on desktop (md:text-7xl) */}
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900">
+              {homeData.heroHeadline}
+            </h1>
+            
+            {/* Softer, readable subheadline */}
+            <p class="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto">
+              {homeData.heroSubhead}
+            </p>
+            
+            {/* A modern, pill-shaped button with a hover shadow */}
+            <div class="pt-6">
+              <a 
+                href={homeData.ctaLink} 
+                class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                {homeData.ctaText}
+              </a>
+            </div>
+          </>
+        ) : (
+          <h1 class="text-4xl font-bold">Welcome to Inkbot Design</h1>
+        )}
+        
+      </section>
+    </main>
+  </body>
+</html>

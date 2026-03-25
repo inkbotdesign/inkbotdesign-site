@@ -1,3 +1,4 @@
+import { homeSchema } from './homeSchema';
 import { serviceSchema } from './schema';
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
@@ -13,6 +14,6 @@ export default defineConfig({
   plugins: [structureTool()],
 
   schema: {
-    types: [serviceSchema], // This is where we will eventually put your Web Design Services template
+    types: [serviceSchema, homeSchema],
   },
 });

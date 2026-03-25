@@ -5,6 +5,8 @@ import react from '@astrojs/react';
 
 import netlify from '@astrojs/netlify';
 
+import tailwindcss from '@tailwindcss/vite';
+
 export default defineConfig({
   integrations: [sanity({
     projectId: 'furwbwrk',
@@ -14,5 +16,9 @@ export default defineConfig({
   }), react()],
 
   output: 'static',
-  adapter: netlify()
+  adapter: netlify(),
+
+  vite: {
+    plugins: [tailwindcss()]
+  }
 });
