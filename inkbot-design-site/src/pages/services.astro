@@ -1,0 +1,36 @@
+---
+// 1. Import the Sanity client and the new PortableText component
+import { sanityClient } from "sanity:client";
+import { PortableText } from "astro-portabletext";
+
+// 2. Write the query
+const query = `*[_type == "service" && slug.current == "services"][0]`;
+const servicePage = await sanityClient.fetch(query);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{servicePage ? servicePage.title : 'Services'} | Inkbot Design</title>
+    {servicePage?.seoDescription && (
+      <meta name="description" content={servicePage.seoDescription} />
+    )}
+  </head>
+  <body>
+    <main>
+      <article>
+        {servicePage ? (
+          <h1>{servicePage.title}</h1>
+        ) : (
+          <h1>Page Not Found</h1>
+        )}
+        
+        {/* 3. Render the rich text safely */}
+        {servicePage?.bodyCopy && (
+          <PortableText value={servicePage.bodyCopy} />
+        )}
+      </article>
+    </main>
+  </body>
+</html>
